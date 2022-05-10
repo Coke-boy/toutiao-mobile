@@ -1,5 +1,5 @@
 /**
- * 频道相关接口
+ * 频道相关接口，部分接口地址或已更改可能引起错误
  */
 import request from '@/utils/request'
 

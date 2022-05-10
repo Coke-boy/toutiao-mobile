@@ -1,5 +1,5 @@
 /**
- * 搜索相关接口模块
+ * 搜索相关接口模块，部分接口地址或已更改可能引起错误
  */
 import request from '@/utils/request'
 

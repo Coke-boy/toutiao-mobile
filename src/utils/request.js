@@ -53,7 +53,7 @@ request.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // 校验是否有 refresh_token
       const user = store.state.user
-    
+
       if (!user || !user.refresh_token) {
         // router.push('/login') 去往登录页
         redirectLogin()

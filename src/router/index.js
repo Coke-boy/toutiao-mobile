@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { Dialog } from 'vant'
+import { Dialog } from 'vant' // 单独导入vant 对话弹窗
 import store from '@/store'
 
 Vue.use(VueRouter)

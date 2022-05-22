@@ -133,6 +133,7 @@ export default {
     async loadUser () {
       const res = await getSelf()
       this.user = res.data.data
+      console.log(this.user)
     }
   }
 }

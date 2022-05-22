@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
+import io from 'socket.io-client' // 引入 io
 import { getItem, setItem } from '@/utils/storage'
 import { mapState } from 'vuex'
 
@@ -59,8 +59,8 @@ export default {
   name: 'ChatPage',
   data () {
     return {
-      message: '',
-      socket: null,
+      message: '', // 聊天框输入的内容
+      socket: null, // 客户端和服务器建立链接的socket对象
       messages: getItem('messages') || [] // 消息数据列表
     }
   },
@@ -78,14 +78,24 @@ export default {
   },
 
   created () {
-    const socket = io('http://toutiao.itheima.net/v1_0/socket.io')
-    this.socket = socket
+    // 建立链接，io是建立socket连接和axios并无关系
+    this.socket = io('http://toutiao.itheima.net/v1_0/socket.io', {
+      query: {
+        token: this.user
+      },
+      transports: ['websocket']
+    })
+
+    // 测试是否建立链接成功
+    this.socket.on('connect', () => {
+      console.log('链接建立成功')
+    })
 
     // 收发消息
     // socket.emit('message', '消息')
     // 监听后端传过来的数据
-    socket.on('message', data => {
-      data.photo = 'http://toutiao.meiduo.site/FqHn7ps9v5I8esWXJNKH0asrSwcB'
+    this.socket.on('message', data => {
+      // data.photo = 'http://toutiao.meiduo.site/FqHn7ps9v5I8esWXJNKH0asrSwcB'
       this.messages.push(data)
     })
   },
@@ -100,6 +110,7 @@ export default {
     // 用户发送消息给后台
     onSend () {
       // socket.emit('message', '输入的数据')
+      // 去除发送消息文本空格
       const message = this.message.trim()
 
       // 非空校验
@@ -115,8 +126,8 @@ export default {
       const data = {
         msg: message,
         timestamp: Date.now(),
-        userId: this.user.user_id,
-        photo: 'http://toutiao.meiduo.site/FlOAkWHoU8lnYwU6eCEPN-dHINHl'
+        userId: this.user.user_id
+        // photo: 'http://toutiao.meiduo.site/FlOAkWHoU8lnYwU6eCEPN-dHINHl'
       }
       // 发送数据给后端
       this.socket.emit('message', data)
